@@ -1,0 +1,29 @@
+{
+    "name": "pqstudio/rate-limit-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony2 Bundle which rate limits user requests",
+    "keywords": ["rate", "limit", "bundle", "symfony2", "redis"],
+    "homepage": "https://github.com/PQstudio/RateLimitBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grzegorz Graczyk",
+            "email": "gregory90@gmail.com"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.5.1",
+    },
+
+    "require-dev": {
+        "symfony/finder": "2.3.*"
+    },
+
+    "autoload": {
+        "psr-0": { "PQstudio\\RateLimitBundle": "" }
+    },
+
+    "minimum-stability": "dev",
+    "target-dir": "PQstudio/RateLimitBundle"
+}
