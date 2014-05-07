@@ -13,7 +13,9 @@
     ],
 
     "require": {
-        "php": ">=5.5.1"
+        "php": ">=5.5.1",
+        "symfony/framework-bundle": ">=2.3,<2.5",
+        "snc/redis-bundle": "1.1.x-dev"
     },
 
     "require-dev": {
