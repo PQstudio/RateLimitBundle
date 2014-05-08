@@ -2,10 +2,14 @@
 namespace PQstudio\RateLimitBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpFoundation\Response;
 
-class RateLimitListener
+class RateLimitResponseListener
 {
     private $requestLimit;
+
+    protected $map = array();
 
     public function __construct($requestLimit)
     {
@@ -17,6 +21,7 @@ class RateLimitListener
         $limit = $this->requestLimit->getLimit();
         $remaining = $this->requestLimit->getRemaining();
         $reset = $this->requestLimit->getReset();
+
         $response->headers->add(array(
             'X-Rate-Limit-Limit'     => $limit,
             'X-Rate-Limit-Remaining' => $remaining,
@@ -29,8 +34,8 @@ class RateLimitListener
         if(HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType())
             return;
 
-        //if($this->requestLimit->getIsLimit()) {
+        if($this->requestLimit->getIsLimit()) {
             $this->setHeaders($event->getResponse());
-        //}
+        }
     }
 }

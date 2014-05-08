@@ -1,6 +1,7 @@
 parameters:
     pq.request_limit.class: PQstudio\RateLimitBundle\Utility\RequestLimit
-    pq.rate_limit.listener.class: PQstudio\RateLimitBundle\EventListener\RateLimitListener
+    pq.rate_limit.response.listener.class: PQstudio\RateLimitBundle\EventListener\RateLimitResponseListener
+    pq.rate_limit.request.listener.class: PQstudio\RateLimitBundle\EventListener\RateLimitRequestListener
     pq.rate_limit.storage.redis.class: PQstudio\RateLimitBundle\Storage\RedisStorage
     pq.rate_limit.exception.listener.class: PQstudio\RateLimitBundle\EventListener\ExceptionListener
 
@@ -8,12 +9,20 @@ services:
     pq.request_limit:
         class: %pq.request_limit.class%
 
-    pq.rate_limit.listener:
-        class: %pq.rate_limit.listener.class%
+    pq.rate_limit.response.listener:
+        class: %pq.rate_limit.response.listener.class%
         arguments:
             requestLimit: @pq.request_limit
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    pq.rate_limit.request.listener:
+        class: %pq.rate_limit.request.listener.class%
+        arguments:
+            requestLimit: @pq.request_limit
+            storage: @pq.rate_limit.storage.redis
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
               
     pq.rate_limit.storage.redis:
         class: %pq.rate_limit.storage.redis.class%
@@ -23,8 +32,12 @@ services:
             requestLimit: @pq.request_limit
 
     pq.rate_limit.exception.listener:
-        class: pq.rate_limit.exception.listener.class
+        class: %pq.rate_limit.exception.listener.class%
         arguments:
             jmsSerializer: @jms_serializer
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    pq.rate_limit.request_matcher:
+        class: Symfony\Component\HttpFoundation\RequestMatcher
+        public: false

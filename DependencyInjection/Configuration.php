@@ -18,16 +18,45 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('pqstudio_rate_limit');
+        $rootNode = $treeBuilder->root('pq_rate_limit', 'array');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
-        //$rootNode
-            //->children()
-            //->scalarNode('limit')->cannotBeEmpty()->defaultValue('25')->end()
-            //->scalarNode('offset')->cannotBeEmpty()->defaultValue('0')->end()
-        //->end();
+        $rootNode
+            ->children()
+            ->arrayNode('limits')
+                ->cannotBeOverwritten()
+                ->prototype('array')
+                    ->children()
+                    ->scalarNode('path')->defaultNull()->info('URL path info')->end()
+                    ->arrayNode('method')
+                        ->beforeNormalization()->ifString()->then(function($v) { return preg_split('/\s*,\s*/', $v); })->end()
+                        ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                        ->info('HTTP method')
+                    ->end()
+                    ->arrayNode('ips')
+                        ->beforeNormalization()->ifString()->then(function($v) { return preg_split('/\s*,\s*/', $v); })->end()
+                        ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                        ->info('List of ips')
+                    ->end()
+                    ->arrayNode('attributes')
+                        ->addDefaultsIfNotSet()
+                        ->cannotBeEmpty()
+                        ->treatNullLike(array())
+                        ->info('Request attributes')
+                    ->end()
+                    ->scalarNode('domain')->defaultNull()->info('depreciated, use host instead')->end()
+                    ->scalarNode('host')->defaultNull()->info('URL host name')->end()
+                    ->scalarNode('controller')->defaultNull()->info('controller action name')->end()
+
+                    ->scalarNode('limit')->defaultNull()->info('Number of requests allowed')->end()
+                    ->scalarNode('time')->defaultNull()->info('Seconds for limit')->end()
+                ->end()
+            ->end()
+        ->end();
 
         return $treeBuilder;
     }
