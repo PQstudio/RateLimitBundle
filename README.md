@@ -3,6 +3,15 @@ RateLimitBundle
 
 Bundle providing rate limiting for requests in your Symfony2 application using Redis as storage.
 
+Currently in alpha.
+
+TODO:
+- TESTS,
+- integrate captcha after exceeded rate limit,
+- rate limiting authenticated users,
+- more storage options.
+
+
 [![Build Status](https://secure.travis-ci.org/PQstudio/RateLimitBundle.png?branch=master)](http://travis-ci.org/PQstudio/RateLimitBundle)
 
 Documentation
