@@ -1,7 +1,7 @@
 RateLimitBundle
 ===============
 
-TODO
+Bundle providing rate limiting for requests in your Symfony2 application using Redis as storage.
 
 [![Build Status](https://secure.travis-ci.org/PQstudio/RateLimitBundle.png?branch=master)](http://travis-ci.org/PQstudio/RateLimitBundle)
 

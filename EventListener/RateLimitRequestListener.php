@@ -48,7 +48,7 @@ class RateLimitRequestListener
         $options = $this->getOptions($request);
 
         if ($options) {
-            $path = $request->getUri();
+            $path = $request->getUri().$request->getMethod();
             $ip = $request->server->get('REMOTE_ADDR');
             $this->storage->checkRequest($path, $ip, $options['limit'], $options['time']);
         }
