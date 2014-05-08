@@ -81,4 +81,9 @@ class PQstudioRateLimitExtension extends Extension
 
         return new Reference($id);
     }
+
+    public function getAlias()
+    {
+        return 'pq_rate_limit';
+    }
 }
