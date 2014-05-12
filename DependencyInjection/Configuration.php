@@ -54,6 +54,7 @@ class Configuration implements ConfigurationInterface
 
                     ->scalarNode('limit')->defaultNull()->info('Number of requests allowed')->end()
                     ->scalarNode('time')->defaultNull()->info('Seconds for limit')->end()
+                    ->booleanNode('captcha')->defaultFalse()->info('Is captcha required after limit?')->end()
                 ->end()
             ->end()
         ->end();

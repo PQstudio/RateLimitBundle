@@ -7,7 +7,6 @@ Currently in alpha.
 
 TODO:
 - TESTS,
-- integrate captcha after exceeded rate limit,
 - rate limiting authenticated users,
 - more storage options.
 

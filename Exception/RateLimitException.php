@@ -17,11 +17,16 @@ class RateLimitException extends HttpException
 
     protected $reset;
 
-    public function __construct($limit, $remaining, $reset, $moreInfo = null)
+    public function __construct($limit, $remaining, $reset, $captcha, $moreInfo = null)
     {
         $code = 429;
         $error = "too_many_requests";
         $errorMessage = "You have executed too many requests. Please try again later.";
+
+        if(true == $captcha) {
+            $error = "captcha_required";
+            $errorMessage = "You have executed too many requests. Please fill captcha correctly.";
+        }
         parent::__construct($code);
 
         $this->statusCode = $code;

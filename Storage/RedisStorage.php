@@ -40,9 +40,9 @@ class RedisStorage
         $this->requestLimit = $requestLimit;
     }
 
-    public function checkRequest($path, $ip, $limit, $inTime)
+    public function checkRequest($path, $ip, $limit, $inTime, $captcha)
     {
-        $key = $path.$ip;
+        $key = $ip.":".$path;
 
         if($this->redis->exists($key)) {
             $this->limit = $this->redis->get($key);
@@ -68,8 +68,17 @@ class RedisStorage
             throw new RateLimitException(
                 $limit,
                 $this->remaining,
-                $this->reset
+                $this->reset,
+                $captcha
             );
+        }
+    }
+
+    public function removeIpLimit($ip)
+    {
+        $keys = $this->redis->keys($ip.":*");
+        foreach($keys as $key) {
+            $this->redis->delete($key);
         }
     }
 }

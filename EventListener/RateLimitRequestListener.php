@@ -50,7 +50,7 @@ class RateLimitRequestListener
         if ($options) {
             $path = $request->getUri().$request->getMethod();
             $ip = $request->server->get('REMOTE_ADDR');
-            $this->storage->checkRequest($path, $ip, $options['limit'], $options['time']);
+            $this->storage->checkRequest($path, $ip, $options['limit'], $options['time'], $options['captcha']);
         }
     }
 

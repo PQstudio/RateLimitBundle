@@ -1,0 +1,4 @@
+pq_rate_limit_remove_limit:
+    pattern: /rateLimit/remove
+    defaults: { _controller: PQstudioRateLimitBundle:Captcha:checkCaptcha }
+    methods: [POST]
