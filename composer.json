@@ -14,7 +14,7 @@
 
     "require": {
         "php": ">=5.5.1",
-        "symfony/framework-bundle": ">=2.3,<2.5",
+        "symfony/framework-bundle": ">=2.3,<3.0",
         "snc/redis-bundle": "1.1.*",
         "dmishh/recaptcha-bundle": "1.0.*"
     },
